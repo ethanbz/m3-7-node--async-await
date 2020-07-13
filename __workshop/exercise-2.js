@@ -3,17 +3,23 @@
 
 const request = require('request-promise');
 
-const getIssPosition = async () => {
+const getIssPosition = () => {
+  // write some code...
+  return request(' http://api.open-notify.org/iss-now.json')
+    .then((response) => JSON.parse(response))
+    .then((parsedResponse) => {
+      const { latitude, longitude } = parsedResponse.iss_position;
+      return { lat: latitude, lng: longitude };
+    })
+};
+
+const handleIssPosition = async () => {
   try {
-    const response = await request(/* fill this in */);
-    const issLocation = JSON.parse(/* fill this in */);
-    return {
-      lat: /* fill this in */,
-      lng: /* fill this in */,
-    };
+    const result = await getIssPosition();
+    console.log(result);
   } catch (err) {
     console.log('Error: ', err);
   }
 };
 
-console.log(getIssPosition());
+handleIssPosition();
